@@ -1,0 +1,9 @@
+<img class="ico" src="/icons/doc.png" alt="{{currentFolder}}/{{name}}">
+<form action="/delete" method="get">
+    <input type="hidden" name="root" value="{{currentFolder}}" />
+    <input type="hidden" name="id" value="{{currentFolder}}/{{name}}">
+    <button type="submit">delete</button>
+</form>
+<a href="filemanager?root={{currentFolder}}/{{name}}">
+    {{name}}
+</a>

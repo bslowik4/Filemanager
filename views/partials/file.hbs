@@ -1,0 +1,16 @@
+<img class="ico" src="{{image name}}" alt="{{image name}}">
+<div style="display: flex; overflow:scroll; gap:5px">
+    <form action="/delete" method="get">
+        <input type="hidden" name="root" value="{{currentFolder}}" />
+        <input type="hidden" name="id" value="{{currentFolder}}/{{name}}">
+        <button type="submit">delete</button>
+    </form>
+    <form action="/editor" method="get">
+        <input type="hidden" name="id" value="{{currentFolder}}/{{name}}">
+        <button type="submit">Editor</button>
+    </form>
+    <br>
+    <p>
+        {{name}}
+    </p>
+</div>

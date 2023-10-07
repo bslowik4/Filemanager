@@ -1,0 +1,18 @@
+<div style="display: flex; justify-content:center; align-items:center; flex-direction:column">
+    <h1>Login page</h1>
+    <div style="display:flex; flex-direction:row; gap:15px;">
+        <div style="background-color: black; color:white; width:75px; height: 35px; border-radius:5px; text-align:center;"
+            id="login">
+            Login
+        </div>
+    </div>
+    <br>
+    <form action="/checkCredits" method="post">
+        <input type="text" name="name" id="name" placeholder="Enter Name">
+        <input type="text" name="pass" id="pass" placeholder="Enter pass">
+        <button type="submit">Login</button>
+    </form>
+</div>
+<script>
+    document.getElementById("login").addEventListener("click", () => { location.replace("/login") })
+</script>

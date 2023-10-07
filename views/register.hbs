@@ -1,0 +1,27 @@
+<div style="display: flex; justify-content:center; align-items:center; flex-direction:column">
+    <h1>Register page</h1>
+    <div style="display:flex; flex-direction:row; gap:15px;">
+        <div style="background-color: black; color:white; width:75px; height: 35px; border-radius:5px; text-align:center;"
+            id="login">
+            Login
+        </div>
+        <div style="background-color: black; color:white; width:75px; height: 35px; border-radius:5px; text-align:center;"
+            id="index">
+            index
+        </div>
+        <div style="background-color: black; color:white; width:75px; height: 35px; border-radius:5px; text-align:center;"
+            id="index2">
+            index2
+        </div>
+    </div>
+    <br>
+    <form action="/register" method="post">
+        <input type="text" name="name" id="name" placeholder="Enter Name">
+        <input type="text" name="pass" id="pass" placeholder="Enter pass">
+        <input type="text" name="passConfirm" id="passConfirm" placeholder="Confirm pass">
+        <button type="submit">Register</button>
+    </form>
+</div>
+<script>
+    document.getElementById("login").addEventListener("click", () => { location.replace("/login") })
+</script>

@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="side">
+        <div style="display: flex; align-items:row;">
+            <div id="open">Open</div>
+            <div id="panel">
+                <div>option</div>
+                <div>option</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    let menu = document.getElementById("panel");
+    let menuOpen = false
+    document.getElementById("open").onclick = () => {
+        if (!menuOpen) { menu.style.width = "200px"; menuOpen = true; console.log("działa") }
+        else { menu.style.width = "0px"; menuOpen = false }
+    }
+</script>

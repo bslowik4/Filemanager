@@ -1,0 +1,132 @@
+<div class="container">
+    <div class="side">
+        <div class="options">
+            <div class="smallOption" style="background-color: yellow;" id="font-">font -</div>
+            <div class="smallOption" style="background-color: orange;" id="theme">kolory</div>
+            <div class="smallOption" style="background-color: rgb(248, 112, 22);" id="font+">font +</div>
+        </div>
+        <div class="box">
+            <div id="saveSettings">Save settings</div>
+        </div>
+        <div class="box">
+            <div onclick="document.getElementById('rename').show()">Zmiana nazwy</div>
+        </div>
+        <div class="box" style="background-color: blue;">
+            <div style="color: white;" onclick="document.getElementById('save').show()">Zapisz plik</div>
+        </div>
+    </div>
+    <div style="display: flex; flex-direction: column;">
+        <div style="width: 100%; background-color: rgb(77, 77, 77); color: white">{{name}}</div>
+        <div style="display: flex; flex-direction:row">
+            <div style="display: flex; flex-direction:column" id="lines">
+                {{#each lines}}
+                <div style="lineNumber">{{line @index}}</div>
+                {{/each}}
+            </div>
+            <textarea name="" id="textarea" cols="50" rows="{{line @index}}">{{content}}</textarea>
+        </div>
+        <form action="q" method="get"></form>
+    </div>
+</div>
+
+
+<script>
+    let fontSizec;
+    let themeNumber;
+    let themes;
+    let textarea = document.getElementById("textarea")
+    let linesCount = document.getElementById("lines")
+    let fontdec = document.getElementById("font-")
+    let fontadd = document.getElementById("font+")
+    let change = 0;
+    let theme = document.getElementById("theme")
+    let trye = 0;
+    let saveSettings = document.getElementById("saveSettings");
+    fontdec.onclick = () => {
+        change--
+        work()
+    }
+    fontadd.onclick = () => {
+        change++
+        work()
+    }
+
+    theme.onclick = () => {
+        if (trye == 0) {
+            trye++
+            work()
+        }
+        else {
+            trye--
+            work()
+        }
+    }
+    const headers = { "Content-Type": "application/json" }
+    function work() {
+        fetch("/settings", { method: "get", headers })
+            .then(response => response.json())
+            .then(
+                data => {
+                    fontSizec = data.fontSizec
+                    themeNumber = data.themeNumber
+                    themes = data.themes
+                }
+            ).then(
+                textarea.onkeyup = () => {
+                    let lines = textarea.value.split("\n")
+                    linesCount.innerHTML = ""
+                    for (let i = 1; i <= lines.length; i++) {
+                        let div = document.createElement("div")
+                        div.style.fontSize = `${fontSizec + change}px`
+                        div.classList.add("lineNumber")
+                        div.innerHTML = i
+                        linesCount.append(div)
+                    }
+                    textarea.rows = lines.length
+                    document.getElementById("insider").value = textarea.value
+                    textarea.style.fontSize = `${fontSizec + change}px`
+                    textarea.style.backgroundColor = themes[themeNumber + trye][0]
+                    textarea.style.color = themes[themeNumber + trye][1]
+                }
+            )
+    }
+    work();
+
+    function fetchPost() {
+        const headers = { "Content-Type": "application/json" } // nagłowek czyli typ danych
+
+        let body = JSON.stringify({ fontSizec: change, themeNumber: trye })
+
+        fetch("/saveSettings", { method: "post", body, headers }) // fetch
+            .then(response => response.json())
+            .then(
+                data => console.log(data) // dane odpowiedzi z serwera
+            )
+
+
+    }
+
+    saveSettings.onclick = () => {
+        fetchPost()
+    }
+</script>
+
+<dialog class="file" id="save">
+    <h2>Zapisz zmiany</h2>
+    <form method="get" action="/saveEdit">
+        <input type="hidden" name="root" value="{{root}}" />
+        <input type="hidden" name="insider" value="działa" id="insider" />
+        <button type="submit">save</button>
+        <div onclick="document.getElementById('save').close()">Close</div>
+    </form>
+</dialog>
+
+<dialog class="file" id="rename">
+    <h2>Nowa nazwa folderu</h2>
+    <form method="get" action="/fileRename">
+        <input type="hidden" name="root" value="{{root}}" />
+        <input type="text" required name="name">
+        <button type="submit">save</button>
+        <div onclick="document.getElementById('rename').close()">Close</div>
+    </form>
+</dialog>

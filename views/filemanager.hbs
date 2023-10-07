@@ -1,0 +1,69 @@
+<div class="container">
+    <div class="side">
+        <p>filemanager</p>
+        <p>Jesteś zalogowany jako {{username}}</p>
+        <div class="box">
+            <div onclick="document.getElementById('file').show()">new file</div>
+        </div>
+        <div class="box">
+            <div onclick="document.getElementById('folder').show()">new directory</div>
+        </div>
+        <div class="box">
+            <form enctype="multipart/form-data" method="POST" action="/filemanager">
+                <input type="file" multiple required name="ret">
+                <input type="hidden" name="root" value="{{root}}" />
+                <br><br>
+                <button type="submit">upload</button>
+            </form>
+        </div>
+        <div class="box">
+            <div onclick="document.getElementById('rename').show()">rename folder</div>
+        </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column;">
+        <div style="display: flex; flex-direction: row;">
+            {{#each pathDisplay}}
+            <a href="filemanager?root={{path}}" style="color: black;">{{view}}</a> >
+            {{/each}}
+        </div>
+        <div class="tabelMain">
+            {{#each folderNames}}
+            <div class="smallbox">{{> folder}}</div>
+            {{/each}}
+        </div>
+        <br>
+        <div class="tabelMain">
+            {{#each names}}
+            <div class="smallbox">{{> file}}</div>
+            {{/each}}
+        </div>
+    </div>
+    <dialog class="file" id="file">
+        <h2>Nazwa pliku</h2>
+        <form method="get" action="/savefile">
+            <input type="hidden" name="root" value="{{root}}" />
+            <input type="text" required name="name">
+            <button type="submit">save</button>
+            <div onclick="document.getElementById('file').close()">Close</div>
+        </form>
+    </dialog>
+    <dialog class="folder" id="folder">
+        <h2>Nazwa folderu</h2>
+        <form method="get" action="/savefolder">
+            <input type="hidden" name="root" value="{{root}}" />
+            <input type="text" required name="name">
+            <button type="submit">save</button>
+            <div onclick="document.getElementById('folder').close()">Close</div>
+        </form>
+    </dialog>
+    <dialog class="file" id="rename">
+        <h2>Nowa nazwa folderu</h2>
+        <form method="get" action="/dirRename">
+            <input type="hidden" name="root" value="{{root}}" />
+            <input type="text" required name="name">
+            <button type="submit">save</button>
+            <div onclick="document.getElementById('rename').close()">Close</div>
+        </form>
+    </dialog>
+</div>
